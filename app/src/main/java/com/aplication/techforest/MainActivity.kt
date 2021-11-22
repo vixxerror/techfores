@@ -9,10 +9,12 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.ui.HomeScreen
 import com.aplication.techforest.ui.theme.TechForestTheme
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalCoilApi
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
