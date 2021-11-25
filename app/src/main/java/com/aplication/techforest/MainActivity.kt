@@ -23,13 +23,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
+import com.aplication.techforest.ui.CurrentMeditation1
 import com.aplication.techforest.ui.HomeScreen
-import com.aplication.techforest.ui.MediaItem
-
+import com.aplication.techforest.ui.HomeScreen1
 
 
 import com.aplication.techforest.ui.theme.TechForestTheme
-
+data class Recipe(
+    @DrawableRes val imageResource: Int,
+    val title: String,
+    val ingredients: List<String>
+)
 class MainActivity : ComponentActivity() {
     @ExperimentalCoilApi
     @ExperimentalFoundationApi
@@ -38,22 +42,17 @@ class MainActivity : ComponentActivity() {
         setContent {
             TechForestTheme {
                 Surface(color= MaterialTheme.colors.background) {
-                    MediaList()
+                    HomeScreen()
                 }
                 }
             }
         }
     }
 
+fun RecipeCard(recipe: Recipe){
 
-@ExperimentalCoilApi
-@ExperimentalFoundationApi
+}
 
-data class Recipe(
-    @DrawableRes val imageResource: Int,
-    val title: String,
-    val ingredients: List<String>
-)
 
 
 
@@ -62,7 +61,7 @@ data class Recipe(
 fun MediaList(){
     LazyColumn{
         items(3){
-            MediaItem()
+
         }
     }
 }

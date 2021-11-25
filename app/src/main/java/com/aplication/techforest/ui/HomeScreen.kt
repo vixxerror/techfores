@@ -37,7 +37,7 @@ import com.aplication.techforest.ui.theme.*
 
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
-
+@Preview
 @Composable
 fun HomeScreen() {
     Box(
@@ -303,7 +303,6 @@ fun FeatureSection(features: List<Feature>) {
 @Composable
 fun FeatureItem(
     feature: Feature
-
 ) {
     BoxWithConstraints(
         modifier = Modifier
@@ -387,7 +386,7 @@ fun FeatureItem(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .clickable {
-
+                        // Handle the click
                     }
                     .align(Alignment.BottomEnd)
                     .clip(RoundedCornerShape(10.dp))
@@ -399,6 +398,8 @@ fun FeatureItem(
 }
 
 
-
-
-
+@ExperimentalFoundationApi
+@Composable
+fun a(){
+    HomeScreen1()
+}
