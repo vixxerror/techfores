@@ -17,18 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.media2.MediaItem
-import androidx.media2.exoplayer.external.video.spherical.Projection
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.aplication.techforest.R
 
 
-
 @Composable
-fun MediaList(){
-    LazyColumn{
-        items(20){
+fun MediaList() {
+    LazyColumn {
+        items(20) {
             MediaItem()
         }
     }
@@ -36,15 +33,16 @@ fun MediaList(){
 
 @Preview(showBackground = true)
 @Composable
-fun MediaItem(){
-    Column{
+fun MediaItem() {
+    Column {
         Box(
             modifier = Modifier
                 .height(200.dp)
                 .fillMaxWidth()
-        ){
+        ) {
             Image(
-                painter = rememberImagePainter(data ="http://lorempixel.com/400/200/sports/1/"
+                painter = rememberImagePainter(
+                    data = "http://lorempixel.com/400/200/sports/1/"
                 ),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
@@ -58,7 +56,7 @@ fun MediaItem(){
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.secondary)
                 .padding(16.dp)
-                )
+        )
         {
             Text(
                 text = "Title 1",

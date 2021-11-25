@@ -1,4 +1,4 @@
-package com.aplication.techforest.ui
+package com.aplication.techforest.presentation.screens
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -7,11 +7,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,15 +23,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
 import com.aplication.techforest.BottomMenuContent
 import com.aplication.techforest.Feature
 import com.aplication.techforest.R
@@ -37,7 +34,6 @@ import com.aplication.techforest.ui.theme.*
 
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
-
 @Composable
 fun HomeScreen() {
     Box(
@@ -47,7 +43,17 @@ fun HomeScreen() {
     ) {
         Column {
             GreetingSection()
-            ChipSection(chips = listOf("Plants", "Devices", "Water", "Flowers", "Trees", "Connections", "WiFi"))
+            ChipSection(
+                chips = listOf(
+                    "Plants",
+                    "Devices",
+                    "Water",
+                    "Flowers",
+                    "Trees",
+                    "Connections",
+                    "WiFi"
+                )
+            )
             CurrentMeditation()
             FeatureSection(
                 features = listOf(
@@ -86,13 +92,17 @@ fun HomeScreen() {
                 )
             )
         }
-        BottomMenu(items = listOf(
-            BottomMenuContent("Home", R.drawable.ic_home),
-            BottomMenuContent("Devices", R.drawable.ic_lambda),
-            BottomMenuContent("Plants", R.drawable.ic_baseline_local_florist_24),
-            BottomMenuContent("Profile", R.drawable.ic_profile),
-            BottomMenuContent("Settings", R.drawable.ic_baseline_settings_24),
-        ), modifier = Modifier.align(Alignment.BottomCenter))
+        /*
+        BottomMenu(
+            items = listOf(
+                BottomMenuContent("Home", R.drawable.ic_home),
+                BottomMenuContent("Devices", R.drawable.ic_lambda),
+                BottomMenuContent("Plants", R.drawable.ic_baseline_local_florist_24),
+                BottomMenuContent("Profile", R.drawable.ic_profile),
+                BottomMenuContent("Settings", R.drawable.ic_baseline_settings_24),
+            ), modifier = Modifier.align(Alignment.BottomCenter)
+        )
+        */
     }
 }
 
@@ -162,7 +172,7 @@ fun BottomMenuItem(
         }
         Text(
             text = item.title,
-            color = if(isSelected) activeTextColor else inactiveTextColor
+            color = if (isSelected) activeTextColor else inactiveTextColor
         )
     }
 }
@@ -298,12 +308,10 @@ fun FeatureSection(features: List<Feature>) {
     }
 }
 
-@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @Composable
 fun FeatureItem(
     feature: Feature
-
 ) {
     BoxWithConstraints(
         modifier = Modifier
@@ -387,7 +395,7 @@ fun FeatureItem(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .clickable {
-
+                        // Handle the click
                     }
                     .align(Alignment.BottomEnd)
                     .clip(RoundedCornerShape(10.dp))
@@ -397,8 +405,3 @@ fun FeatureItem(
         }
     }
 }
-
-
-
-
-
