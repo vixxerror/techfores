@@ -11,14 +11,14 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHost
 import androidx.navigation.compose.rememberNavController
+
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.navigation.Destinations
 import com.aplication.techforest.navigation.Destinations.*
 import com.aplication.techforest.navigation.NavigationHost
 import com.aplication.techforest.presentation.components.BottomNavigationBar
-import com.aplication.techforest.ui.MediaItem
+
 
 
 import com.aplication.techforest.ui.theme.TechForestTheme
@@ -49,15 +49,7 @@ data class Recipe(
 )
 
 
-@Preview
-@Composable
-fun MediaList() {
-    LazyColumn {
-        items(3) {
-            MediaItem()
-        }
-    }
-}
+
 
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
