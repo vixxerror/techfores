@@ -177,6 +177,7 @@ fun CurrentMeditation3(
 
 @Preview
 @ExperimentalFoundationApi
+@ExperimentalCoilApi
 @Composable
 fun Devices() {
     Box(

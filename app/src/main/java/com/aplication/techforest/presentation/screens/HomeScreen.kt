@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
@@ -31,7 +32,7 @@ import com.aplication.techforest.Feature
 import com.aplication.techforest.R
 import com.aplication.techforest.standardQuadFromTo
 import com.aplication.techforest.ui.theme.*
-
+@Preview
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable

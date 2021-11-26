@@ -16,9 +16,12 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.navigation.Destinations
 import com.aplication.techforest.navigation.Destinations.*
+import com.aplication.techforest.navigation.Destinations1
 import com.aplication.techforest.navigation.NavigationHost
+import com.aplication.techforest.navigation.NavigationHost1
 import com.aplication.techforest.presentation.components.BottomNavigationBar
-
+import com.aplication.techforest.presentation.login.LoginScreen
+import com.aplication.techforest.presentation.screens.CurrentMeditation2
 
 
 import com.aplication.techforest.ui.theme.TechForestTheme
@@ -31,7 +34,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TechForestTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen()
+                    NavigationHost1()
                 }
             }
         }
@@ -49,7 +52,15 @@ data class Recipe(
 )
 
 
-
+@Preview
+@Composable
+fun MediaList() {
+    LazyColumn {
+        items(3) {
+            CurrentMeditation2()
+        }
+    }
+}
 
 @ExperimentalCoilApi
 @ExperimentalFoundationApi

@@ -15,4 +15,14 @@ sealed class Destinations(
     object Plants : Destinations("plants", "Plants", R.drawable.ic_baseline_local_florist_24)
     object Profile : Destinations("profile", "Profile", R.drawable.ic_profile)
     object Settings : Destinations("settings", "Settings", R.drawable.ic_baseline_settings_24)
+
+
+
+}
+sealed class Destinations1(
+    val route: String
+)
+{
+    object LoginScreen : Destinations1("Login")
+    object HomeScreen : Destinations1("Home")
 }
