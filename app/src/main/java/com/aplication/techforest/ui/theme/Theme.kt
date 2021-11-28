@@ -8,8 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun TechForestTheme(darkTheme: Boolean = isSystemInDarkTheme(),
-                    content: @Composable() () -> Unit
+fun TechForestTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette
@@ -27,7 +28,7 @@ fun TechForestTheme(darkTheme: Boolean = isSystemInDarkTheme(),
 }
 
 private val DarkColorPalette = darkColors(
-    primary =   BLUE900,
+    primary = BLUE900,
     primaryVariant = BLUE950,
     secondary = CYAN900,
     secondaryVariant = CYAN800,
@@ -42,7 +43,7 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary =   Blue500,
+    primary = Blue500,
     primaryVariant = BLUE800,
     secondary = CYAN500,
     secondaryVariant = CYAN700,

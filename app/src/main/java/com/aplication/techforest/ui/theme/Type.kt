@@ -18,7 +18,7 @@ val gothicA1 = FontFamily(
         Font(R.font.gothica1_black, FontWeight.Black),
 
 
-    )
+        )
 )
 
 // Set of Material typography styles to start with

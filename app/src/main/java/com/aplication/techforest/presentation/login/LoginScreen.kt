@@ -62,9 +62,10 @@ fun LoginScreen(
             .background(MaterialTheme.colors.background)
     ){
         Image(
-            painter = painterResource(id = com.aplication.techforest.R.drawable.logo),
+            painter = painterResource(id = com.aplication.techforest.R.drawable.login_background3),
             contentDescription = "Login Image",
-            contentScale = ContentScale.Inside
+            contentScale = ContentScale.Inside,
+            modifier = Modifier.fillMaxWidth()
         )
 
         Box(
@@ -191,7 +192,7 @@ fun LoginScreen(
                                             fontWeight = FontWeight.Bold
                                         )
                                     ){
-                                        append("Registrate")
+                                        append(" Registrate")
                                     }
                                 }
                             ){

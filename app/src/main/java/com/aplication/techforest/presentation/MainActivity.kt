@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -19,6 +20,7 @@ import com.aplication.techforest.navigation.Destinations.*
 import com.aplication.techforest.navigation.Destinations1
 import com.aplication.techforest.navigation.NavigationHost
 import com.aplication.techforest.navigation.NavigationHost1
+import com.aplication.techforest.presentation.components.AppBar
 import com.aplication.techforest.presentation.components.BottomNavigationBar
 import com.aplication.techforest.presentation.login.LoginScreen
 import com.aplication.techforest.presentation.screens.CurrentMeditation2
@@ -75,6 +77,7 @@ fun MainScreen() {
         Profile,
         Settings
     )
+
 
     Scaffold(
         bottomBar = { BottomNavigationBar(

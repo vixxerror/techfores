@@ -80,7 +80,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
-// Dagger-Hilt
+
+    // Dagger-Hilt
     def hilt_lifecycle_viewmodel = "1.0.0-alpha03"
     def hilt_navigation = "1.0.0-alpha03"
     implementation "com.google.dagger:hilt-android:$hilt_version"

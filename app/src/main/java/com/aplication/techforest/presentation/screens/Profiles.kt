@@ -14,17 +14,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aplication.techforest.navigation.Destinations
+import com.aplication.techforest.presentation.components.AppBar
+import com.aplication.techforest.presentation.components.ProfileHeader
 
 @Composable
 fun Profiles() {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.SpaceAround,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Profile",
-            style = TextStyle(color = Color.Black, fontSize = 42.sp, fontWeight = FontWeight.Black)
-        )
+    Column {
+        AppBar()
     }
+    ProfileHeader()
 }
