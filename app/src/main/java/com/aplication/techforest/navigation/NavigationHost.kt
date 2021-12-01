@@ -1,6 +1,7 @@
 package com.aplication.techforest.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,7 @@ import com.aplication.techforest.presentation.screens.Profiles
 import com.aplication.techforest.presentation.screens.Settings
 import com.aplication.techforest.presentation.screens.HomeScreen
 
+@ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
@@ -51,6 +53,7 @@ fun NavigationHost(
 
 
 }
+@ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable

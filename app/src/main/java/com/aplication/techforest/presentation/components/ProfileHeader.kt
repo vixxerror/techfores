@@ -115,6 +115,7 @@ fun Plan() {
 }
 
 
+@ExperimentalCoilApi
 @Preview
 @Composable
 fun PreviewProfileHeader() {
