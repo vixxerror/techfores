@@ -10,10 +10,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -24,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.BottomMenuContent
 import com.aplication.techforest.R
@@ -36,7 +41,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
-@Preview
 @ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -48,7 +52,10 @@ fun Devices(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
-    val getAllDevicesData = viewModel.getDeviceData.observeAsState()
+    val deviceList by remember { viewModel.deviceList }
+    val endReached by remember { viewModel.endReached }
+    val loadError by remember { viewModel.loadError }
+    val isLoading by remember { viewModel.isLoading }
 
 
     Surface(
@@ -66,45 +73,24 @@ fun Devices(
             ) {
                 Column {
                     Title()
-                    scope.launch {
-                        val result = viewModel.getDeviceData()
-
-                        if (result is Resource.Success) {
-                            Toast.makeText(
-                                context,
-                                "Fetching data success",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else if (result is Resource.Error) {
-                            Toast.makeText(
-                                context,
-                                "Error: ${result.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                    LazyColumn(contentPadding = PaddingValues(16.dp)){
+                        items(deviceList.size){
+                            DeviceListItem(device = deviceList[it])
                         }
                     }
-                    if (viewModel.isLoading.value) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            CircularProgressIndicator()
+                    Box(
+                        contentAlignment = Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        if(isLoading) {
+                            CircularProgressIndicator(color = MaterialTheme.colors.primary)
                         }
-                    }
-
-                    if (viewModel.isLoading.value) {
-                        if (viewModel.getDeviceData.value!!.isNotEmpty()) {
-                            LazyColumn(
-                                modifier = Modifier.padding(10.dp)
-                            ) {
-                                items(getAllDevicesData.value!!.size) { index ->
-                                    DeviceListItem(device = getAllDevicesData.value!![index])
-                                }
+                        if(loadError.isNotEmpty()) {
+                            RetrySection(error = loadError) {
+                                viewModel.loadDevices()
                             }
                         }
                     }
-
                 }
             }
         }
@@ -230,6 +216,23 @@ fun DeviceListItem2(device: Device) {
                 fontWeight = FontWeight.Normal,
                 fontFamily = FontFamily.SansSerif
             )
+        }
+    }
+}
+
+@Composable
+fun RetrySection(
+    error: String,
+    onRetry: () -> Unit
+) {
+    Column {
+        Text(error, color = Color.Red, fontSize = 18.sp)
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = { onRetry() },
+            modifier = Modifier.align(CenterHorizontally)
+        ) {
+            Text(text = "Retry")
         }
     }
 }

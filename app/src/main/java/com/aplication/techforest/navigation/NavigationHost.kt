@@ -24,10 +24,6 @@ import com.aplication.techforest.presentation.screens.HomeScreen
 fun NavigationHost(
     navController: NavHostController
 ) {
-
-
-
-
     NavHost(navController = navController, startDestination = HomeScreen.route){
         composable(HomeScreen.route){
             HomeScreen()

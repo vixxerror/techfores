@@ -4,27 +4,47 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.aplication.techforest.model.Device
 import com.aplication.techforest.repository.DeviceRepository
 import com.aplication.techforest.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DeviceViewModel @Inject constructor(
-    private val deviceRepository: DeviceRepository
+    private val repository: DeviceRepository
 ) : ViewModel() {
 
+    var deviceList = mutableStateOf<List<Device>>(listOf())
+    var loadError = mutableStateOf("")
     var isLoading = mutableStateOf(false)
-    private var _getDeviceData: MutableLiveData<List<Device>> = MutableLiveData<List<Device>>()
-    var getDeviceData: LiveData<List<Device>> = _getDeviceData
+    var endReached = mutableStateOf(false)
 
-    suspend fun getDeviceData(): Resource<List<Device>> {
-        val result = deviceRepository.getDevice()
-        if (result is Resource.Success) {
+    init {
+        loadDevices()
+    }
+
+    fun loadDevices() {
+        viewModelScope.launch {
             isLoading.value = true
-            _getDeviceData.value = result.data!!
+            when (val result = repository.getDevice()) {
+                is Resource.Success -> {
+                    val devicesEntries = result.data!!
+
+                    loadError.value = ""
+                    isLoading.value = false
+                    deviceList.value += devicesEntries
+                }
+                is Resource.Error -> {
+                    loadError.value = result.message!!
+                    isLoading.value = false
+                }
+                is Resource.Loading -> TODO()
+            }
         }
-        return result
     }
 }
