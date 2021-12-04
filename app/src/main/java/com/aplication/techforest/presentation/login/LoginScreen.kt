@@ -228,7 +228,7 @@ import kotlin.reflect.KSuspendFunction2
 
         if(state.errorMessage != null){
             EventDialog(
-                errorMessage = state.errorMessage,
+                errorMessage = state.errorMessage as Int,
                 onDismiss = onDismissDialog
             )
         }

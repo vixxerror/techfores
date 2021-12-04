@@ -34,7 +34,7 @@ class ApiService {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.109:3000/")
+            .baseUrl("http://192.168.0.22:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
