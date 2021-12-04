@@ -33,9 +33,6 @@ import com.aplication.techforest.viewmodel.LoginViewModel
 import com.aplication.techforest.ui.theme.TechForestTheme
 
 
-
-
-
 @ExperimentalFoundationApi
 @AndroidEntryPoint
 @ExperimentalAnimationApi
@@ -61,62 +58,64 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-    @ExperimentalFoundationApi
-    @ExperimentalAnimationApi
-    fun NavGraphBuilder.addLogin(
-        navController: NavHostController
-    ) {
-        composable(
-            route = Destinations3.Login.route,
-            enterTransition = { _, _ ->
-                slideInHorizontally(
-                    initialOffsetX = { 1000 },
-                    animationSpec = tween(500)
-                )
-            },
-            exitTransition = { _, _ ->
-                slideOutHorizontally(
-                    targetOffsetX = { -1000 },
-                    animationSpec = tween(500)
-                )
-            },
-            popEnterTransition = { _, _ ->
-                slideInHorizontally(
-                    initialOffsetX = { -1000 },
-                    animationSpec = tween(500)
-                )
-            },
-            popExitTransition = { _, _ ->
-                slideOutHorizontally(
-                    targetOffsetX = { 1000 },
-                    animationSpec = tween(500)
-                )
-            }
-        ) {
-            val viewModel: LoginViewModel = hiltViewModel()
-            val email = viewModel.state.value.email
-            val password = viewModel.state.value.password
 
-            if (viewModel.state.value.successLogin) {
-                LaunchedEffect(key1 = Unit) {
-                    navController.navigate(
-                        Destinations3.Home.route + "/$email" + "/$password"
-                    ) {
-                        popUpTo(Destinations3.Login.route) {
-                            inclusive = true
-                        }
+@ExperimentalFoundationApi
+@ExperimentalAnimationApi
+fun NavGraphBuilder.addLogin(
+    navController: NavHostController
+) {
+    composable(
+        route = Destinations3.Login.route,
+        enterTransition = { _, _ ->
+            slideInHorizontally(
+                initialOffsetX = { 1000 },
+                animationSpec = tween(500)
+            )
+        },
+        exitTransition = { _, _ ->
+            slideOutHorizontally(
+                targetOffsetX = { -1000 },
+                animationSpec = tween(500)
+            )
+        },
+        popEnterTransition = { _, _ ->
+            slideInHorizontally(
+                initialOffsetX = { -1000 },
+                animationSpec = tween(500)
+            )
+        },
+        popExitTransition = { _, _ ->
+            slideOutHorizontally(
+                targetOffsetX = { 1000 },
+                animationSpec = tween(500)
+            )
+        }
+    ) {
+        val viewModel: LoginViewModel = hiltViewModel()
+        val email = viewModel.state.value.email
+        val password = viewModel.state.value.password
+
+        if (viewModel.state.value.successLogin) {
+            LaunchedEffect(key1 = Unit) {
+                navController.navigate(
+                    Destinations3.Home.route + "/$email" + "/$password"
+                ) {
+                    popUpTo(Destinations3.Login.route) {
+                        inclusive = true
                     }
                 }
-            } else {
-                LoginScreen(
-                    state = viewModel.state.value,
-                    onLogin = viewModel::login,
-
-                    onDismissDialog = viewModel::hideErrorDialog
-                )
             }
+        } else {
+            LoginScreen(
+                state = viewModel.state.value,
+                onLogin = viewModel::login,
+
+                onDismissDialog = viewModel::hideErrorDialog
+            )
         }
     }
+}
+
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -124,7 +123,7 @@ fun NavGraphBuilder.addHome() {
     composable(
         route = Destinations3.Home.route + "/{email}" + "/{password}",
         arguments = Destinations3.Home.arguments
-    ){ backStackEntry ->
+    ) { backStackEntry ->
 
         MainScreen()
     }
