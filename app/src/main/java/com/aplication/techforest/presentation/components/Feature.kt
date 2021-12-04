@@ -1,4 +1,4 @@
-package com.aplication.techforest
+package com.aplication.techforest.presentation.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color

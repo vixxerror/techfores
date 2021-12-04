@@ -7,36 +7,46 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.BottomMenuContent
-import com.aplication.techforest.Feature
+import com.aplication.techforest.presentation.components.Feature
 import com.aplication.techforest.R
 import com.aplication.techforest.standardQuadFromTo
 import com.aplication.techforest.ui.theme.*
-@Preview
+import com.aplication.techforest.viewmodel.HomeViewModel
+
+@ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val scaffoldState = rememberScaffoldState()
+    val deviceList by remember { viewModel.deviceList }
+    val endReached by remember { viewModel.endReached }
+    val loadError by remember { viewModel.loadError }
+    val isLoading by remember { viewModel.isLoading }
+    val featureList = viewModel.featureList
+
     Box(
         modifier = Modifier
             .background(DarkStateGray)
@@ -57,55 +67,12 @@ fun HomeScreen() {
             )
             CurrentMeditation()
             FeatureSection(
-                features = listOf(
-                    Feature(
-                        title = "Device 1",
-                        R.drawable.ic_baseline_circle_24,
-                        BlueViolet1,
-                        BlueViolet2,
-                        BlueViolet3,
-                        "https://blog.orange.es/wp-content/uploads/sites/4/2019/07/photo-1553063085-dbbf64d936ea.jpeg"
-                    ),
-                    Feature(
-                        title = "Device 2",
-                        R.drawable.ic_baseline_circle_24,
-                        LightGreen1,
-                        LightGreen2,
-                        LightGreen3,
-                        "https://blog.orange.es/wp-content/uploads/sites/4/2019/07/photo-1553063085-dbbf64d936ea.jpeg"
-                    ),
-                    Feature(
-                        title = "Device 3",
-                        R.drawable.ic_baseline_circle_24,
-                        OrangeYellow1,
-                        OrangeYellow2,
-                        OrangeYellow3,
-                        "https://blog.orange.es/wp-content/uploads/sites/4/2019/07/photo-1553063085-dbbf64d936ea.jpeg"
-                    ),
-                    Feature(
-                        title = "Device 4",
-                        R.drawable.ic_baseline_circle_24,
-                        Beige1,
-                        Beige2,
-                        Beige3,
-                        "https://blog.orange.es/wp-content/uploads/sites/4/2019/07/photo-1553063085-dbbf64d936ea.jpeg"
-                    )
-                )
+                features = featureList
             )
         }
-        /*
-        BottomMenu(
-            items = listOf(
-                BottomMenuContent("Home", R.drawable.ic_home),
-                BottomMenuContent("Devices", R.drawable.ic_lambda),
-                BottomMenuContent("Plants", R.drawable.ic_baseline_local_florist_24),
-                BottomMenuContent("Profile", R.drawable.ic_profile),
-                BottomMenuContent("Settings", R.drawable.ic_baseline_settings_24),
-            ), modifier = Modifier.align(Alignment.BottomCenter)
-        )
-        */
     }
 }
+
 
 @Composable
 fun BottomMenu(
@@ -290,7 +257,7 @@ fun CurrentMeditation(
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun FeatureSection(features: List<Feature>) {
+fun FeatureSection(features: MutableList<Feature>) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "Devices",

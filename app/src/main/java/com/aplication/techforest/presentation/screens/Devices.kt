@@ -175,52 +175,6 @@ fun Title(
 }
 
 @Composable
-fun DeviceListItem2(device: Device) {
-
-    Card(
-        modifier = Modifier
-            .padding(5.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp)),
-        elevation = 10.dp
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = device.id.toString(),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.SansSerif
-            )
-
-            Spacer(modifier = Modifier.padding(10.dp))
-
-            Text(
-                text = "Title: ${device.name}",
-                modifier = Modifier.fillMaxWidth(),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily.SansSerif
-            )
-
-            Spacer(modifier = Modifier.padding(5.dp))
-
-            Text(
-                text = "Status: ${device.active}",
-                modifier = Modifier.fillMaxWidth(),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily.SansSerif
-            )
-        }
-    }
-}
-
-@Composable
 fun RetrySection(
     error: String,
     onRetry: () -> Unit
