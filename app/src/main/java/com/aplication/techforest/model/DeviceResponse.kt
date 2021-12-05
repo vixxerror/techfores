@@ -1,6 +1,6 @@
 package com.aplication.techforest.model
 
-class Device(
+class DeviceResponse(
     val userId: Int,
     val name: String,
     val id: Int,

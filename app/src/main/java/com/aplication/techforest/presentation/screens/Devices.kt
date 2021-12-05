@@ -1,6 +1,5 @@
 package com.aplication.techforest.presentation.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,7 +8,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -17,28 +15,19 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
-import com.aplication.techforest.BottomMenuContent
 import com.aplication.techforest.R
-import com.aplication.techforest.model.Device
-import com.aplication.techforest.navigation.Destinations
+import com.aplication.techforest.model.DeviceResponse
 import com.aplication.techforest.ui.theme.*
-import com.aplication.techforest.utils.Resource
 import com.aplication.techforest.viewmodel.DeviceViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 
 @ExperimentalFoundationApi
@@ -101,7 +90,7 @@ fun Devices(
 @Composable
 fun DeviceListItem(
     color: Color = BlueViolet3,
-    device: Device
+    device: DeviceResponse
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -175,7 +164,7 @@ fun Title(
 }
 
 @Composable
-fun DeviceListItem2(device: Device) {
+fun DeviceListItem2(device: DeviceResponse) {
 
     Card(
         modifier = Modifier
