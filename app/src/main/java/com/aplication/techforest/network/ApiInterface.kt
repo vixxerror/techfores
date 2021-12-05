@@ -13,6 +13,6 @@ interface ApiInterface {
     suspend fun getDeviceData() : List<DeviceResponse>
 
     @GET("users/")
-    suspend fun getuser(@Query("usuario") usuario : String) : UserResponse
+    suspend fun getuser(@Query("usuario") usuario : String) : List<UserResponse>
 }
 

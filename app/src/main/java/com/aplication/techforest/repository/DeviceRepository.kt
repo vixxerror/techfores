@@ -20,7 +20,7 @@ class DeviceRepository @Inject constructor(
         return Resource.Success(response)
     }
 
-    suspend fun getUser(usuario:String): Resource<UserResponse> {
+    suspend fun getUser(usuario:String): Resource<List<UserResponse>> {
         val response = try {
             apiInterface.getuser(usuario)
         } catch (e: Exception){
