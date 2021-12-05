@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.R
 import com.aplication.techforest.model.DeviceResponse
+import com.aplication.techforest.presentation.components.RetrySection
 import com.aplication.techforest.ui.theme.*
 import com.aplication.techforest.viewmodel.DeviceViewModel
 
@@ -104,7 +105,7 @@ fun DeviceListItem(
     ) {
         Column {
             Text(
-                text = device.name,
+                text = device.nombre,
                 style = MaterialTheme.typography.h5
             )
             Text(
@@ -113,7 +114,7 @@ fun DeviceListItem(
                 color = TextWhite
             )
             Text(
-                text = device.active.toString(),
+                text = device.estado.toString(),
                 style = MaterialTheme.typography.body2,
                 color = TextWhite
             )
@@ -189,7 +190,7 @@ fun DeviceListItem2(device: DeviceResponse) {
             Spacer(modifier = Modifier.padding(10.dp))
 
             Text(
-                text = "Title: ${device.name}",
+                text = "Title: ${device.nombre}",
                 modifier = Modifier.fillMaxWidth(),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Normal,
@@ -199,7 +200,7 @@ fun DeviceListItem2(device: DeviceResponse) {
             Spacer(modifier = Modifier.padding(5.dp))
 
             Text(
-                text = "Status: ${device.active}",
+                text = "Status: ${device.estado}",
                 modifier = Modifier.fillMaxWidth(),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Normal,
@@ -209,19 +210,3 @@ fun DeviceListItem2(device: DeviceResponse) {
     }
 }
 
-@Composable
-fun RetrySection(
-    error: String,
-    onRetry: () -> Unit
-) {
-    Column {
-        Text(error, color = Color.Red, fontSize = 18.sp)
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(
-            onClick = { onRetry() },
-            modifier = Modifier.align(CenterHorizontally)
-        ) {
-            Text(text = "Retry")
-        }
-    }
-}
