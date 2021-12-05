@@ -29,77 +29,89 @@ class LoginViewModel @Inject constructor(
 
     val state: MutableState<LoginState> = mutableStateOf(LoginState())
 
-    fun login(email: String, password: String) {
-        viewModelScope.launch {
+    /*
+        fun login(email: String, password: String) {
+            viewModelScope.launch {
 
-            state.value = state.value.copy(displayProgressBar = true)
+                state.value = state.value.copy(displayProgressBar = true)
 
-            val result: Resource<UserResponse> = repository.getUser(usuario = email)
+                val result = repository.getUser(usuario = email)
 
-            val userEntries = result.data!!
+                val userEntries = result.data!!
 
-            val errorMessage = if (email.isBlank() || password.isBlank()) {
-                R.string.error_input_empty
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                R.string.error_not_a_valid_email
-            } else if (email != userEntries.usuario || password != userEntries.clave) {
-                Log.d(
-                    "TAG",
-                    "${userEntries.usuario}, ${userEntries.clave}, validar = ${email}, ${password}"
-                )
-                R.string.error_invalid_credentials
-            } else if(email == userEntries.usuario || password == userEntries.clave)  {
-                delay(3000)
+                val errorMessage = if (email.isBlank() || password.isBlank()) {
+                    R.string.error_input_empty
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    R.string.error_not_a_valid_email
+                } else if (email != userEntries.usuario || password != userEntries.clave) {
+                    Log.d(
+                        "TAG",
+                        "${userEntries.usuario}, ${userEntries.clave}, validar = ${email}, ${password}"
+                    )
+                    R.string.error_invalid_credentials
+                } else if (email == userEntries.usuario || password == userEntries.clave) {
+                    delay(3000)
 
-                Log.d(
-                    "TAG",
-                    "${userEntries.usuario}, ${userEntries.clave}, validar = ${email}, ${password}"
-                )
+                    Log.d(
+                        "TAG",
+                        "${userEntries.usuario}, ${userEntries.clave}, validar = ${email}, ${password}"
+                    )
 
-                state.value = state.value.copy(email = email, password = password)
-                state.value = state.value.copy(displayProgressBar = false)
-                state.value = state.value.copy(successLogin = true)
+                    state.value = state.value.copy(email = email, password = password)
+                    state.value = state.value.copy(displayProgressBar = false)
+                    state.value = state.value.copy(successLogin = true)
 
-            }else null
+                } else null
 
-            errorMessage?.let {
-                state.value = state.value.copy(errorMessage = it)
-                state.value = state.value.copy(displayProgressBar = false)
-                return@launch
+                errorMessage?.let {
+                    state.value = state.value.copy(errorMessage = it)
+                    state.value = state.value.copy(displayProgressBar = false)
+                    return@launch
+                }
+
             }
-
         }
-    }
+    */
 
     fun hideErrorDialog() {
         state.value = state.value.copy(
             errorMessage = null
         )
     }
-/*
+
     fun login(email: String, password: String) {
         viewModelScope.launch {
             state.value = state.value.copy(displayProgressBar = true)
             when (val result = repository.getUser(usuario = email)) {
                 is Resource.Success -> {
-                    val userEntries = result.data!!
+
                     val errorMessage = if (email.isBlank() || password.isBlank()) {
                         R.string.error_input_empty
-                    } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                        R.string.error_not_a_valid_email
-                    } else if (email != userEntries.usuario || password != userEntries.clave) {
+
+                    } else if (result.data?.size != 0) {
+                        val userEntries = result.data?.get(0)
+
                         Log.d(
                             "TAG",
-                            "${userEntries.usuario}, ${userEntries.clave}, validar = ${email}, ${password}"
+                            "${userEntries?.usuario}, ${userEntries?.clave}, validar = ${email}, ${password}"
                         )
-                        R.string.error_invalid_credentials
-                    } else if (email == userEntries.usuario || password == userEntries.clave) {
-                        delay(3000)
-                        state.value = state.value.copy(email = email, password = password)
-                        state.value = state.value.copy(displayProgressBar = false)
-                        state.value = state.value.copy(successLogin = true)
 
-                    } else null
+                        if (email != userEntries?.usuario || password != userEntries.clave) {
+                            R.string.error_invalid_credentials
+
+                        } else if (email == userEntries.usuario || password == userEntries.clave) {
+                            delay(3000)
+                            state.value = state.value.copy(email = email, password = password)
+                            state.value = state.value.copy(displayProgressBar = false)
+                            state.value = state.value.copy(successLogin = true)
+                        } else null
+
+                    } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        R.string.error_not_a_valid_email
+
+                    } else {
+                        R.string.error_invalid_credentials
+                    }
 
                     errorMessage?.let {
                         state.value = state.value.copy(errorMessage = it)
@@ -108,12 +120,20 @@ class LoginViewModel @Inject constructor(
                     }
                 }
                 is Resource.Error -> {
-                    state.value = state.value.copy(errorMessage = result.message)
-                    state.value = state.value.copy(displayProgressBar = false)
+                    loadError.value = result.message!!
+                    isLoading.value = false
+                    Log.d(
+                        "Error",
+                        "Resource error : ${result.message}"
+                    )
                 }
-                is Resource.Loading -> TODO()
+                else -> {
+                    Log.d(
+                        "Else",
+                        "${result.data?.get(0)?.usuario}, ${result.data?.get(0)?.clave}, validar = ${email}, ${password}"
+                    )
+                }
             }
         }
     }
-*/
 }
