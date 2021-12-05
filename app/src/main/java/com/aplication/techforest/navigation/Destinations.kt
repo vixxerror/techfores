@@ -14,13 +14,29 @@ import com.aplication.techforest.R
 sealed class Destinations(
     val route: String,
     val title: String,
+    val arguments: List<NamedNavArgument>,
     @DrawableRes val iconId: Int
 ) {
-    object HomeScreen : Destinations("homeScreen", "Home", R.drawable.ic_home_2)
-    object Devices : Destinations("devices", "Devices", R.drawable.ic_lambda)
-    object Plants : Destinations("plants", "Plants", R.drawable.ic_baseline_local_florist_24)
-    object Profile : Destinations("profile", "Profile", R.drawable.ic_profile)
-    object Settings : Destinations("settings", "Settings", R.drawable.ic_baseline_settings_24)
+    object HomeScreen : Destinations("homeScreen", "Home", listOf(
+        navArgument("email"){ type = NavType.StringType },
+        navArgument("password"){ type = NavType.StringType }
+    ), R.drawable.ic_home_2)
+    object Devices : Destinations("devices", "Devices",  listOf(
+        navArgument("email"){ type = NavType.StringType },
+        navArgument("password"){ type = NavType.StringType }
+    ),R.drawable.ic_lambda)
+    object Plants : Destinations("plants", "Plants", listOf(
+        navArgument("email"){ type = NavType.StringType },
+        navArgument("password"){ type = NavType.StringType }
+    ), R.drawable.ic_baseline_local_florist_24)
+    object Profile : Destinations("profile", "Profile", listOf(
+        navArgument("email"){ type = NavType.StringType },
+        navArgument("password"){ type = NavType.StringType }
+    ), R.drawable.ic_profile)
+    object Settings : Destinations("settings", "Settings",  listOf(
+        navArgument("email"){ type = NavType.StringType },
+        navArgument("password"){ type = NavType.StringType }
+    ),R.drawable.ic_baseline_settings_24)
 
 
 

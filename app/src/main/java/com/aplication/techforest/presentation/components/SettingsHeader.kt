@@ -1,33 +1,39 @@
 package com.aplication.techforest.presentation.components
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import android.util.Size
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import com.aplication.techforest.Feature
 import com.aplication.techforest.R
-import com.aplication.techforest.ui.theme.DarkStateGray
+import com.aplication.techforest.presentation.screens.ChipSection
+import com.aplication.techforest.presentation.screens.CurrentMeditation
+import com.aplication.techforest.presentation.screens.FeatureSection
+import com.aplication.techforest.presentation.screens.GreetingSection
+import com.aplication.techforest.ui.theme.*
 
-
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @Composable
-fun ProfileHeader(email:String) {
+fun ProfileHeader1(email:String) {
     Surface(
         color = DarkStateGray,
         contentColor = Color.White
@@ -85,39 +91,87 @@ fun ProfileHeader(email:String) {
                 )
             }
             Spacer(modifier = Modifier.padding(8.dp))
-            Plan()
+            buttons()
         }
     }
 
 }
 
-@Composable
-fun Plan() {
-    Row(modifier = Modifier.fillMaxWidth()) {
-        Column(
-            modifier = Modifier.weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Plan", style = MaterialTheme.typography.caption)
-            Text(text = "Initial", style = MaterialTheme.typography.h5)
-        }
-
-        Column(
-            modifier = Modifier.weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-            Text(text = "Hours", style = MaterialTheme.typography.caption)
-            Text(text = "30", style = MaterialTheme.typography.h5)
-        }
-
-    }
-}
-
-
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @Preview
 @Composable
-fun PreviewProfileHeader() {
-    ProfileHeader(email="")
+fun PreviewProfileHeader1() {
+    ProfileHeader1(email="")
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun buttons() {
+    Box(
+        modifier = Modifier
+            .background(DarkStateGray)
+            .fillMaxSize()
+    ) {
+        Column {
+
+
+            ChipSection1(
+                chips = listOf(
+                    "Logout  ",
+                    "Youtube ",
+                    "Ayuda   ",
+                    "Autores ",
+                    "Pag web ",
+
+                )
+            )
+
+        }
+        /*
+        BottomMenu(
+            items = listOf(
+                BottomMenuContent("Home", R.drawable.ic_home),
+                BottomMenuContent("Devices", R.drawable.ic_lambda),
+                BottomMenuContent("Plants", R.drawable.ic_baseline_local_florist_24),
+                BottomMenuContent("Profile", R.drawable.ic_profile),
+                BottomMenuContent("Settings", R.drawable.ic_baseline_settings_24),
+            ), modifier = Modifier.align(Alignment.BottomCenter)
+        )
+        */
+    }
+}
+
+@Composable
+fun ChipSection1(
+    chips: List<String>
+) {
+    var selectedChipIndex by remember {
+        mutableStateOf(0)
+    }
+    LazyColumn {
+        items(chips.size) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+
+                    .padding(start = 5.dp, top = 5.dp, bottom = 5.dp)
+                    .clickable {
+                        selectedChipIndex = it
+                        selectedChipIndex = 0
+                        selectedChipIndex = 1
+                    }
+
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(
+                        if (selectedChipIndex == it) ButtonBlue
+                        else DarkerButtonBlue
+                    )
+                    .padding(horizontal=155.dp,vertical = 30.dp)
+            ) {
+                Text(text = chips[it], color = TextWhite,style = MaterialTheme.typography.caption )
+
+            }
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.aplication.techforest.presentation.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,17 +15,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aplication.techforest.navigation.Destinations
+import com.aplication.techforest.presentation.components.AppBar
+import com.aplication.techforest.presentation.components.ProfileHeader
+import com.aplication.techforest.presentation.components.ProfileHeader1
 
+@ExperimentalFoundationApi
 @Composable
 fun Settings() {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.SpaceAround,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Settings",
-            style = TextStyle(color = Color.Black, fontSize = 42.sp, fontWeight = FontWeight.Black)
-        )
+    Column {
+        AppBar()
     }
+    ProfileHeader1(email="email")
 }

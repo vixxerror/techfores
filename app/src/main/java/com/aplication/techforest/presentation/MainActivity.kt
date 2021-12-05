@@ -16,6 +16,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.navigation.Destinations
@@ -52,6 +54,7 @@ class MainActivity : ComponentActivity() {
                         addLogin(navController)
 
                         addHome()
+
                     }
                 }
             }
@@ -118,22 +121,28 @@ fun NavGraphBuilder.addLogin(
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
+
 @ExperimentalAnimationApi
-fun NavGraphBuilder.addHome() {
+ fun NavGraphBuilder.addHome() {
+
     composable(
         route = Destinations3.Home.route + "/{email}" + "/{password}",
         arguments = Destinations3.Home.arguments
     ) { backStackEntry ->
+        val email = backStackEntry.arguments?.getString("email") ?: ""
 
-        MainScreen()
+        MainScreen(email)
+
+
     }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun MainScreen() {
+fun MainScreen(email:String) {
 
     val navController = rememberNavController()
 

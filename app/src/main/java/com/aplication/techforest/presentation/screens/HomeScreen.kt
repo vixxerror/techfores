@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -26,24 +27,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NamedNavArgument
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.BottomMenuContent
 import com.aplication.techforest.Feature
 import com.aplication.techforest.R
 import com.aplication.techforest.standardQuadFromTo
 import com.aplication.techforest.ui.theme.*
-@Preview
+
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
-fun HomeScreen() {
+
+fun HomeScreen(email:String) {
     Box(
         modifier = Modifier
             .background(DarkStateGray)
             .fillMaxSize()
     ) {
         Column {
-            GreetingSection()
+            GreetingSection(email)
+
             ChipSection(
                 chips = listOf(
                     "Plants",
@@ -180,7 +185,8 @@ fun BottomMenuItem(
 
 @Composable
 fun GreetingSection(
-    name: String = "TechForestApp"
+
+    email: String
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -193,7 +199,7 @@ fun GreetingSection(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Good morning, $name",
+                text = "Good morning, $email",
                 style = MaterialTheme.typography.h2
             )
             Text(

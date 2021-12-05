@@ -20,9 +20,9 @@ import com.aplication.techforest.presentation.components.ProfileHeader
 
 @ExperimentalCoilApi
 @Composable
-fun Profiles() {
+fun Profiles(email:String) {
     Column {
         AppBar()
     }
-    ProfileHeader()
+    ProfileHeader(email = email)
 }

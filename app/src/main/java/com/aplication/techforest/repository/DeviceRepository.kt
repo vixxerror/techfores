@@ -20,9 +20,18 @@ class DeviceRepository @Inject constructor(
         return Resource.Success(response)
     }
 
-    suspend fun getUser(usuario:String): Resource<UserResponse> {
+    suspend fun getUser(usuario:String): Resource<List<UserResponse>> {
         val response = try {
             apiInterface.getuser(usuario)
+        } catch (e: Exception){
+            return Resource.Error("An unknown error occurred: ${e.localizedMessage}")
+        }
+        return Resource.Success(response)
+    }
+
+    suspend fun getUser2(name:String): Resource<List<UserResponse>> {
+        val response = try {
+            apiInterface.getuser(name)
         } catch (e: Exception){
             return Resource.Error("An unknown error occurred: ${e.localizedMessage}")
         }
