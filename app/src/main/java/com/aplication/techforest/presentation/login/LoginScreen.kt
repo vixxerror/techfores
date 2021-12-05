@@ -53,7 +53,7 @@ import kotlin.reflect.KSuspendFunction2
     onDismissDialog: () -> Unit
 ) {
 
-    val emailValue = rememberSaveable{ mutableStateOf("") }
+    val emailValue = rememberSaveable{ mutableStateOf("email") }
     val passwordValue = rememberSaveable{ mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current

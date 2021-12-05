@@ -1,6 +1,7 @@
-package com.aplication.techforest.network
+package com.aplication.techforest.network.time
 
-import com.aplication.techforest.repository.DeviceRepository
+
+import com.aplication.techforest.repository.TimeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,16 +15,16 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class ApiService {
+class TimeApiService {
     @Singleton
     @Provides
-    fun provideDeviceRepository(
-        api: ApiInterface
-    ) = DeviceRepository(api)
+    fun NasaProvideRepository(
+        api: TimeApiInterface
+    ) = TimeRepository(api)
 
     @Singleton
     @Provides
-    fun providesDeviceApi(): ApiInterface{
+    fun providesDeviceApi(): TimeApiInterface {
         var okHttpClient : OkHttpClient? = null
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -34,10 +35,10 @@ class ApiService {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.22:3000/")
+            .baseUrl("https://api.openweathermap.org/data/2.5/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
-            .create(ApiInterface::class.java)
+            .create(TimeApiInterface::class.java)
     }
 }

@@ -27,7 +27,7 @@ import com.aplication.techforest.ui.theme.DarkStateGray
 
 @ExperimentalCoilApi
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(email:String) {
     Surface(
         color = DarkStateGray,
         contentColor = Color.White
@@ -58,7 +58,7 @@ fun ProfileHeader() {
             Spacer(modifier = Modifier.padding(8.dp))
 
             Text(
-                text = "Tech Forest",
+                text = "$email",
                 style = MaterialTheme.typography.h6,
                 color = Color.White
             )
@@ -119,5 +119,5 @@ fun Plan() {
 @Preview
 @Composable
 fun PreviewProfileHeader() {
-    ProfileHeader()
+    ProfileHeader(email="")
 }

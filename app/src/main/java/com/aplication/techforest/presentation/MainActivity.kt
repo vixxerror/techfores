@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.navigation.Destinations
+import com.aplication.techforest.navigation.Destinations1
 import com.aplication.techforest.navigation.Destinations3
 import com.aplication.techforest.navigation.NavigationHost
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -28,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.aplication.techforest.presentation.components.BottomNavigationBar
 
 import com.aplication.techforest.presentation.login.LoginScreen
+import com.aplication.techforest.presentation.screens.HomeScreen
 import com.aplication.techforest.viewmodel.LoginViewModel
 
 import com.aplication.techforest.ui.theme.TechForestTheme
@@ -124,8 +126,8 @@ fun NavGraphBuilder.addHome() {
         route = Destinations3.Home.route + "/{email}" + "/{password}",
         arguments = Destinations3.Home.arguments
     ) { backStackEntry ->
-
-        MainScreen()
+        val email = backStackEntry.arguments?.getString("email") ?: ""
+        MainScreen(email=email)
     }
 }
 
@@ -133,7 +135,7 @@ fun NavGraphBuilder.addHome() {
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun MainScreen() {
+fun MainScreen(email:String) {
 
     val navController = rememberNavController()
 
@@ -148,7 +150,7 @@ fun MainScreen() {
         bottomBar = {
             BottomNavigationBar(
                 navController = navController,
-                items = navigationItems
+                items = navigationItems as List<Destinations>
             )
         }
     ) {

@@ -7,43 +7,55 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.annotation.ExperimentalCoilApi
 import com.aplication.techforest.BottomMenuContent
-import com.aplication.techforest.Feature
+import com.aplication.techforest.model.Feature
 import com.aplication.techforest.R
+import com.aplication.techforest.presentation.components.RetrySection
 import com.aplication.techforest.standardQuadFromTo
 import com.aplication.techforest.ui.theme.*
-@Preview
+import com.aplication.techforest.viewmodel.HomeViewModel
+
+
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
+    email:String
+) {
+
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val scaffoldState = rememberScaffoldState()
+    val deviceList by remember { viewModel.deviceList }
+    val endReached by remember { viewModel.endReached }
+    val loadError by remember { viewModel.loadError }
+    val isLoading by remember { viewModel.isLoading }
+    val featureList = viewModel.featureList
+
     Box(
         modifier = Modifier
             .background(DarkStateGray)
             .fillMaxSize()
     ) {
         Column {
-            GreetingSection()
+            GreetingSection(email)
             ChipSection(
                 chips = listOf(
                     "Plants",
@@ -57,41 +69,21 @@ fun HomeScreen() {
             )
             CurrentMeditation()
             FeatureSection(
-                features = listOf(
-                    Feature(
-                        title = "Device 1",
-                        R.drawable.ic_baseline_circle_24,
-                        BlueViolet1,
-                        BlueViolet2,
-                        BlueViolet3,
-                        "https://blog.orange.es/wp-content/uploads/sites/4/2019/07/photo-1553063085-dbbf64d936ea.jpeg"
-                    ),
-                    Feature(
-                        title = "Device 2",
-                        R.drawable.ic_baseline_circle_24,
-                        LightGreen1,
-                        LightGreen2,
-                        LightGreen3,
-                        "https://blog.orange.es/wp-content/uploads/sites/4/2019/07/photo-1553063085-dbbf64d936ea.jpeg"
-                    ),
-                    Feature(
-                        title = "Device 3",
-                        R.drawable.ic_baseline_circle_24,
-                        OrangeYellow1,
-                        OrangeYellow2,
-                        OrangeYellow3,
-                        "https://blog.orange.es/wp-content/uploads/sites/4/2019/07/photo-1553063085-dbbf64d936ea.jpeg"
-                    ),
-                    Feature(
-                        title = "Device 4",
-                        R.drawable.ic_baseline_circle_24,
-                        Beige1,
-                        Beige2,
-                        Beige3,
-                        "https://blog.orange.es/wp-content/uploads/sites/4/2019/07/photo-1553063085-dbbf64d936ea.jpeg"
-                    )
-                )
+                features = featureList
             )
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                if(isLoading) {
+                    CircularProgressIndicator(color = MaterialTheme.colors.primary)
+                }
+                if(loadError.isNotEmpty()) {
+                    RetrySection(error = loadError) {
+                        viewModel.loadDevicesHome()
+                    }
+                }
+            }
         }
         /*
         BottomMenu(
@@ -180,7 +172,7 @@ fun BottomMenuItem(
 
 @Composable
 fun GreetingSection(
-    name: String = "TechForestApp"
+    email: String
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -193,7 +185,7 @@ fun GreetingSection(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Good morning, $name",
+                text = "Good morning, $email",
                 style = MaterialTheme.typography.h2
             )
             Text(
@@ -241,50 +233,89 @@ fun ChipSection(
 
 @Composable
 fun CurrentMeditation(
-    color: Color = LightRed
+    color: Color = LightRed,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .padding(15.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(color)
-            .padding(horizontal = 15.dp, vertical = 20.dp)
-            .fillMaxWidth()
-    ) {
-        Column {
-            Text(
-                text = "Time",
-                style = MaterialTheme.typography.h2
-            )
-            Text(
-                text = "Sunny      21°",
-                style = MaterialTheme.typography.body1,
-                color = TextWhite
-            )
-            Text(
-                text = "December 13, Monday, 2012",
-                style = MaterialTheme.typography.body2,
-                color = TextWhite
-            )
-        }
-        Box(
-            contentAlignment = Alignment.Center,
+
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val scaffoldState = rememberScaffoldState()
+    val deviceList by remember { viewModel.deviceList }
+    val endReached by remember { viewModel.endReached }
+    val loadError by remember { viewModel.loadError }
+    val isLoading by remember { viewModel.isLoading }
+    val timeList = viewModel.timeList
+    if (timeList.value.size != 0){
+        val time = timeList.value[0]
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(ButtonBlue)
-                .padding(10.dp)
+                .padding(15.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(color)
+                .padding(horizontal = 15.dp, vertical = 20.dp)
+                .fillMaxWidth()
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_play),
-                contentDescription = "Play",
-                tint = Color.White,
-                modifier = Modifier.size(16.dp)
-            )
+            Box(
+                contentAlignment = Alignment.Center,
+            ) {
+                if(isLoading) {
+                    CircularProgressIndicator(color = MaterialTheme.colors.primary)
+                }
+                if(loadError.isNotEmpty()) {
+                    RetrySection(error = loadError) {
+                        viewModel.loadTimeHome()
+                    }
+                }else{
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_play),
+                        contentDescription = "Play",
+                        tint = Color.White,
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+            }
+            Column {
+                Text(
+                    text = time.weather[0].main,
+                    style = MaterialTheme.typography.h2
+                )
+                Text(
+                    text = time.weather[0].description,
+                    style = MaterialTheme.typography.body1,
+                    color = TextWhite
+                )
+                Text(
+                    text = time.name,
+                    style = MaterialTheme.typography.body2,
+                    color = TextWhite
+                )
+            }
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(ButtonBlue)
+                    .padding(10.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_play),
+                    contentDescription = "Play",
+                    tint = Color.White,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        }
+    } else {
+        RetrySection(error = loadError) {
+            viewModel.loadTimeHome()
         }
     }
+
+
+
 }
 
 @ExperimentalCoilApi
@@ -383,12 +414,22 @@ fun FeatureItem(
                 lineHeight = 26.sp,
                 modifier = Modifier.align(Alignment.TopStart)
             )
-            Icon(
-                painter = painterResource(id = feature.iconId),
-                contentDescription = feature.title,
-                tint = MediumAquamarine,
-                modifier = Modifier.align(Alignment.BottomStart)
-            )
+            if (feature.estado == "Activo") {
+                Icon(
+                    painter = painterResource(id = feature.iconId),
+                    contentDescription = feature.title,
+                    tint = MediumAquamarine,
+                    modifier = Modifier.align(Alignment.BottomStart)
+                )
+            } else if(feature.estado == "Desactivado"){
+                Icon(
+                    painter = painterResource(id = feature.iconId),
+                    contentDescription = feature.title,
+                    tint = RED600,
+                    modifier = Modifier.align(Alignment.BottomStart)
+                )
+            }
+
             Text(
                 text = "Start",
                 color = TextWhite,
@@ -406,3 +447,4 @@ fun FeatureItem(
         }
     }
 }
+

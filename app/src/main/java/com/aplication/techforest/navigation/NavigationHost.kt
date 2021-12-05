@@ -26,11 +26,11 @@ fun NavigationHost(
 ) {
     NavHost(navController = navController, startDestination = HomeScreen.route){
         composable(HomeScreen.route){
-            HomeScreen()
+            HomeScreen(email = "")
         }
 
         composable(Devices.route){
-            Devices()
+            Devices(email="")
         }
 
         composable(Plants.route){
@@ -38,12 +38,13 @@ fun NavigationHost(
         }
 
         composable(Profile.route){
-            Profiles()
+            Profiles(email="")
         }
 
         composable(Settings.route){
             Settings()
         }
+
 
     }
 
