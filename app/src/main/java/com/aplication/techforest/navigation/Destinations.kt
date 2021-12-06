@@ -19,11 +19,16 @@ sealed class Destinations(
 ) {
     object Login : Destinations("login", "Login", R.drawable.ic_baseline_circle_24, emptyList())
 
+    object MainScreen : Destinations("main", "Main", R.drawable.ic_baseline_circle_24,
+        listOf(
+            navArgument("userId") { type = NavType.IntType }
+        )
+    )
 
     object HomeScreen : Destinations(
-        "homeScreen/", "Home", R.drawable.ic_home_2,
+        "homeScreen/{userId}", "Home", R.drawable.ic_home_2,
         listOf(
-            navArgument("userId"){type = NavType.IntType}
+            navArgument("userId") { type = NavType.IntType }
         )
     ) {
         fun createRoute(userId: Int) = "homeScreen/$userId"

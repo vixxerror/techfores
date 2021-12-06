@@ -1,5 +1,8 @@
 package com.aplication.techforest.presentation.screens
 
+import android.util.Log
+import android.util.Log.WARN
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -29,8 +32,13 @@ import com.aplication.techforest.presentation.components.RetrySection
 import com.aplication.techforest.standardQuadFromTo
 import com.aplication.techforest.ui.theme.*
 import com.aplication.techforest.viewmodel.HomeViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
+
+@ExperimentalMaterialApi
+@ExperimentalPermissionsApi
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
@@ -47,6 +55,8 @@ fun HomeScreen(
     val loadError by remember { viewModel.loadError }
     val isLoading by remember { viewModel.isLoading }
     val featureList = viewModel.featureList
+
+    Log.d("Home","HomeScreen")
 
     Box(
         modifier = Modifier
@@ -84,17 +94,6 @@ fun HomeScreen(
                 }
             }
         }
-        /*
-        BottomMenu(
-            items = listOf(
-                BottomMenuContent("Home", R.drawable.ic_home),
-                BottomMenuContent("Devices", R.drawable.ic_lambda),
-                BottomMenuContent("Plants", R.drawable.ic_baseline_local_florist_24),
-                BottomMenuContent("Profile", R.drawable.ic_profile),
-                BottomMenuContent("Settings", R.drawable.ic_baseline_settings_24),
-            ), modifier = Modifier.align(Alignment.BottomCenter)
-        )
-        */
     }
 }
 

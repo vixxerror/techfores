@@ -8,16 +8,15 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import com.aplication.techforest.presentation.components.BottomNavigationBar2
 import com.aplication.techforest.presentation.login.LoginScreen
+import com.aplication.techforest.presentation.screens.HomeScreen
+import com.aplication.techforest.presentation.screens.MainScreen
 import com.aplication.techforest.viewmodel.LoginViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -38,11 +37,8 @@ fun AnimatedNavigationHost(
             startDestination = Destinations.Login.route
         ) {
             addLogin(navController)
+            addHomeScreen()
             addHome()
-            addDevices()
-            addPlants()
-            addProfile()
-            addSettings()
         }
     }
 }
@@ -87,8 +83,11 @@ fun NavGraphBuilder.addLogin(
 
         if (viewModel.state.value.successLogin) {
             LaunchedEffect(key1 = Unit) {
+                //navController.navigate(
+                //    Destinations.HomeScreen.createRoute(userId = userId)
+                //)
                 navController.navigate(
-                    Destinations.HomeScreen.route + "/$userId"
+                    Destinations.MainScreen.route + "/$userId"
                 ) {
                     popUpTo(Destinations.Login.route) {
                         inclusive = true
@@ -112,13 +111,30 @@ fun NavGraphBuilder.addLogin(
 @ExperimentalAnimationApi
 fun NavGraphBuilder.addHome() {
     composable(
-        route = Destinations.HomeScreen.route + "/{userId}",
-        arguments = Destinations.HomeScreen.arguments
+        route = Destinations.MainScreen.route + "/{userId}",
+        arguments = Destinations.MainScreen.arguments
     ) { backStackEntry ->
         val userId = backStackEntry.arguments?.getInt("userId")
         Log.d("NavGraphBuilder.addHome", "$userId")
         requireNotNull(userId, { "UserID not null" })
-        MainScreen(userId)
+
+        MainScreen(userId = userId)
+    }
+}
+
+@ExperimentalFoundationApi
+@ExperimentalPermissionsApi
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
+fun NavGraphBuilder.addHomeScreen() {
+    composable(
+        route = Destinations.HomeScreen.route,
+        arguments = Destinations.HomeScreen.arguments
+    ) { backStackEntry ->
+        val userId = backStackEntry.arguments?.getInt("userId")
+        Log.d("Prueba 1:", "$userId")
+        requireNotNull(userId, { "UserID not null" })
+        HomeScreen(userId = userId)
     }
 }
 
@@ -159,25 +175,3 @@ fun NavGraphBuilder.addSettings() {
 }
 
 
-@ExperimentalAnimationApi
-@ExperimentalPermissionsApi
-@ExperimentalMaterialApi
-@ExperimentalCoilApi
-@ExperimentalFoundationApi
-@Composable
-fun MainScreen(userId: Int) {
-    val userId = userId
-    Log.d("MainScreen", "$userId")
-    val navController = rememberNavController()
-
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar2(
-                navController = navController,
-                userId = userId
-            )
-        }
-    ) {
-        AnimatedNavigationHost(navController)
-    }
-}

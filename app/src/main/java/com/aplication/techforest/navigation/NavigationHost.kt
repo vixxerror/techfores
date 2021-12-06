@@ -29,14 +29,19 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 @Composable
 fun NavigationHost(
     navController: NavHostController,
-    //userInt : Int
+    userId : Int
 ) {
-    AnimatedNavHost(navController = navController, startDestination = Devices.route){
-        composable(HomeScreen.route){ navBackStackEntry ->
+    Log.d("NavController", "$userId")
+
+    NavHost(navController = navController, startDestination = HomeScreen.route){
+        composable(
+            route = HomeScreen.route,
+            arguments = HomeScreen.arguments
+        ){ navBackStackEntry ->
             val userId = navBackStackEntry.arguments?.getInt("userId")
             requireNotNull(userId)
+            Log.d("NavHomeScreen", "$userId")
             HomeScreen(userId = userId)
-            Log.d("Id del user", "$userId")
         }
 
         composable(Devices.route){
