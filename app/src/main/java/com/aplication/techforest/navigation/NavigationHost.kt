@@ -1,5 +1,7 @@
 package com.aplication.techforest.navigation
 
+import android.util.Log
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -16,17 +18,25 @@ import com.aplication.techforest.presentation.screens.Plants
 import com.aplication.techforest.presentation.screens.Profiles
 import com.aplication.techforest.presentation.screens.Settings
 import com.aplication.techforest.presentation.screens.HomeScreen
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
+@ExperimentalAnimationApi
+@ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
 fun NavigationHost(
-    navController: NavHostController
+    navController: NavHostController,
+    //userInt : Int
 ) {
-    NavHost(navController = navController, startDestination = HomeScreen.route){
-        composable(HomeScreen.route){
-            HomeScreen()
+    AnimatedNavHost(navController = navController, startDestination = Devices.route){
+        composable(HomeScreen.route){ navBackStackEntry ->
+            val userId = navBackStackEntry.arguments?.getInt("userId")
+            requireNotNull(userId)
+            HomeScreen(userId = userId)
+            Log.d("Id del user", "$userId")
         }
 
         composable(Devices.route){

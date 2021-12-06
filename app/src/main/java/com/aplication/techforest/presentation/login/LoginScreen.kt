@@ -39,22 +39,21 @@ import com.aplication.techforest.model.LoginState
 import com.aplication.techforest.presentation.components.EventDialog
 import com.aplication.techforest.presentation.components.RoundedButton
 import com.aplication.techforest.presentation.components.TransparentTextField
-import kotlin.reflect.KSuspendFunction2
 
 
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
 
- fun LoginScreen(
+fun LoginScreen(
     state: LoginState,
     onLogin: (String, String) -> Unit,
 
     onDismissDialog: () -> Unit
 ) {
 
-    val emailValue = rememberSaveable{ mutableStateOf("") }
-    val passwordValue = rememberSaveable{ mutableStateOf("") }
+    val emailValue = rememberSaveable { mutableStateOf("") }
+    val passwordValue = rememberSaveable { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
@@ -62,7 +61,7 @@ import kotlin.reflect.KSuspendFunction2
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
-    ){
+    ) {
         Image(
             painter = painterResource(id = com.aplication.techforest.R.drawable.login_background3),
             contentDescription = "Login Image",
@@ -73,7 +72,7 @@ import kotlin.reflect.KSuspendFunction2
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
-        ){
+        ) {
             ConstraintLayout {
                 val (surface, fab) = createRefs()
                 Surface(
@@ -88,13 +87,13 @@ import kotlin.reflect.KSuspendFunction2
                         topStartPercent = 8,
                         topEndPercent = 8
                     )
-                ){
+                ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
                         verticalArrangement = Arrangement.SpaceEvenly
-                    ){
+                    ) {
                         Text(
                             text = "Bienvenido a TechForest !",
                             style = MaterialTheme.typography.h5.copy(
@@ -115,7 +114,7 @@ import kotlin.reflect.KSuspendFunction2
                                 .padding(horizontal = 16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ){
+                        ) {
                             TransparentTextField(
                                 textFieldValue = emailValue,
                                 textLabel = "Email",
@@ -147,7 +146,7 @@ import kotlin.reflect.KSuspendFunction2
                                         }
                                     ) {
                                         Icon(
-                                            imageVector = if(passwordVisibility) {
+                                            imageVector = if (passwordVisibility) {
                                                 Icons.Default.Visibility
                                             } else {
                                                 Icons.Default.VisibilityOff
@@ -156,7 +155,7 @@ import kotlin.reflect.KSuspendFunction2
                                         )
                                     }
                                 },
-                                visualTransformation = if(passwordVisibility) {
+                                visualTransformation = if (passwordVisibility) {
                                     VisualTransformation.None
                                 } else {
                                     PasswordVisualTransformation()
@@ -180,26 +179,22 @@ import kotlin.reflect.KSuspendFunction2
                                 text = "Login",
                                 displayProgressBar = state.displayProgressBar,
                                 onClick = {
-
-                                           onLogin(emailValue.value, passwordValue.value)
-
+                                    onLogin(emailValue.value, passwordValue.value)
                                 }
                             )
-
                             ClickableText(
                                 text = buildAnnotatedString {
                                     append("No tienes una cuenta?")
-
                                     withStyle(
                                         style = SpanStyle(
                                             color = MaterialTheme.colors.primary,
                                             fontWeight = FontWeight.Bold
                                         )
-                                    ){
+                                    ) {
                                         append(" Registrate")
                                     }
                                 }
-                            ){
+                            ) {
                                 // TODO("NAVIGATE TO REGISTER SCREEN")
                             }
                         }
@@ -226,7 +221,7 @@ import kotlin.reflect.KSuspendFunction2
             }
         }
 
-        if(state.errorMessage != null){
+        if (state.errorMessage != null) {
             EventDialog(
                 errorMessage = state.errorMessage as Int,
                 onDismiss = onDismissDialog

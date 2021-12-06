@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,12 +30,13 @@ import com.aplication.techforest.standardQuadFromTo
 import com.aplication.techforest.ui.theme.*
 import com.aplication.techforest.viewmodel.HomeViewModel
 
-@Preview
+
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    userId: Int,
 ) {
 
     val scope = rememberCoroutineScope()
@@ -54,7 +54,7 @@ fun HomeScreen(
             .fillMaxSize()
     ) {
         Column {
-            GreetingSection()
+            GreetingSection(user = userId)
             ChipSection(
                 chips = listOf(
                     "Plants",
@@ -171,7 +171,7 @@ fun BottomMenuItem(
 
 @Composable
 fun GreetingSection(
-    name: String = "TechForestApp"
+    user: Int
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -184,7 +184,7 @@ fun GreetingSection(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Good morning, $name",
+                text = "Good morning, $user",
                 style = MaterialTheme.typography.h2
             )
             Text(

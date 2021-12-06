@@ -101,7 +101,8 @@ class LoginViewModel @Inject constructor(
 
                         } else if (email == userEntries.usuario || password == userEntries.clave) {
                             delay(3000)
-                            state.value = state.value.copy(email = email, password = password)
+                            Log.d("Id userLoginViewModel", "${userEntries.id}")
+                            state.value = state.value.copy(userId = userEntries.id)
                             state.value = state.value.copy(displayProgressBar = false)
                             state.value = state.value.copy(successLogin = true)
                         } else null

@@ -28,6 +28,7 @@ import com.aplication.techforest.ui.theme.*
 fun BottomNavigationBar(
     navController: NavHostController,
     items: List<Destinations>,
+    userId: Int,
 ) {
     val currentRoute = currentRoute(navController)
 
@@ -62,6 +63,144 @@ fun BottomNavigationBar(
         }
     }
 }
+
+@Composable
+fun BottomNavigationBar2(
+    navController: NavHostController,
+    itemHome: Destinations.HomeScreen = Destinations.HomeScreen,
+    itemDevices: Destinations.Devices = Destinations.Devices,
+    itemPlants: Destinations.Plants = Destinations.Plants,
+    itemProfile: Destinations.Profile = Destinations.Profile,
+    itemSettings: Destinations.Settings = Destinations.Settings,
+
+    userId: Int,
+) {
+    val currentRoute = currentRoute(navController)
+
+    BottomNavigation(
+        backgroundColor = RichBlack,
+        elevation = 5.dp,
+
+        ) {
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = itemHome.iconId),
+                    contentDescription = itemHome.title,
+                    modifier = Modifier.size(20.dp),
+                )
+            },
+            label = { Text(text = itemHome.title) },
+            selected = currentRoute == itemHome.createRoute(userId = userId),
+            onClick = {
+                navController.navigate(itemHome.createRoute(userId = userId)) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+
+                    launchSingleTop = true
+                }
+            },
+            selectedContentColor = Turquoise,
+            alwaysShowLabel = false
+        )
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = itemDevices.iconId),
+                    contentDescription = itemDevices.title,
+                    modifier = Modifier.size(20.dp),
+                )
+            },
+            label = { Text(text = itemDevices.title) },
+            selected = currentRoute == itemDevices.route,
+            onClick = {
+                navController.navigate(itemDevices.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+
+                    launchSingleTop = true
+                }
+            },
+            selectedContentColor = Turquoise,
+            alwaysShowLabel = false
+        )
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = itemPlants.iconId),
+                    contentDescription = itemPlants.title,
+                    modifier = Modifier.size(20.dp),
+                )
+            },
+            label = { Text(text = itemPlants.title) },
+            selected = currentRoute == itemPlants.route,
+            onClick = {
+                navController.navigate(itemPlants.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+
+                    launchSingleTop = true
+                }
+            },
+            selectedContentColor = Turquoise,
+            alwaysShowLabel = false
+        )
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = itemProfile.iconId),
+                    contentDescription = itemProfile.title,
+                    modifier = Modifier.size(20.dp),
+                )
+            },
+            label = { Text(text = itemProfile.title) },
+            selected = currentRoute == itemProfile.route,
+            onClick = {
+                navController.navigate(itemProfile.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+
+                    launchSingleTop = true
+                }
+            },
+            selectedContentColor = Turquoise,
+            alwaysShowLabel = false
+        )
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = itemSettings.iconId),
+                    contentDescription = itemSettings.title,
+                    modifier = Modifier.size(20.dp),
+                )
+            },
+            label = { Text(text = itemSettings.title) },
+            selected = currentRoute == itemSettings.route,
+            onClick = {
+                navController.navigate(itemSettings.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+
+                    launchSingleTop = true
+                }
+            },
+            selectedContentColor = Turquoise,
+            alwaysShowLabel = false
+        )
+
+    }
+}
+
 
 @Composable
 private fun currentRoute(navController: NavController): String? {

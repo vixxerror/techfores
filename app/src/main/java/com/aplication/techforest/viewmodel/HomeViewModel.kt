@@ -34,7 +34,6 @@ class HomeViewModel @Inject constructor(
     init {
         loadTimeHome()
         loadDevicesHome()
-
     }
 
     fun loadDevicesHome() {
