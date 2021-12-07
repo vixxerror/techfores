@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.R
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
@@ -13,14 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
@@ -34,21 +32,25 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import coil.annotation.ExperimentalCoilApi
+import com.aplication.techforest.model.LoginState
+import com.aplication.techforest.presentation.components.EventDialog
 import com.aplication.techforest.presentation.components.RoundedButton
 import com.aplication.techforest.presentation.components.TransparentTextField
-import com.aplication.techforest.presentation.screens.HomeScreen
+import kotlin.reflect.KSuspendFunction2
 
 
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun LoginScreen(
-    HomeScreen:() -> Unit
+
+ fun LoginScreen(
+    state: LoginState,
+    onLogin: (String, String) -> Unit,
+
+    onDismissDialog: () -> Unit
 ) {
 
     val emailValue = rememberSaveable{ mutableStateOf("") }
@@ -134,7 +136,7 @@ fun LoginScreen(
                                     onDone = {
                                         focusManager.clearFocus()
 
-                                        //TODO("LOGIN")
+                                        onLogin(emailValue.value, passwordValue.value)
                                     }
                                 ),
                                 imeAction = ImeAction.Done,
@@ -176,9 +178,11 @@ fun LoginScreen(
                         ) {
                             RoundedButton(
                                 text = "Login",
-                                displayProgressBar = false,
+                                displayProgressBar = state.displayProgressBar,
                                 onClick = {
-                                    HomeScreen()
+
+                                           onLogin(emailValue.value, passwordValue.value)
+
                                 }
                             )
 
@@ -220,6 +224,13 @@ fun LoginScreen(
                     )
                 }
             }
+        }
+
+        if(state.errorMessage != null){
+            EventDialog(
+                errorMessage = state.errorMessage as Int,
+                onDismiss = onDismissDialog
+            )
         }
     }
 }
